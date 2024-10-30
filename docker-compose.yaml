@@ -1,0 +1,10 @@
+services:
+  mapf:
+    image: mapf
+    container_name: "${CONTAINER_NAME:-mapf-${USER}}"
+    privileged: true
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - "${PWD}:/mapf"
