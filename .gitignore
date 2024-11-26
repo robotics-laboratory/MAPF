@@ -1,0 +1,14 @@
+# Ignore BAZEL files
+MODULE.bazel.lock
+/bazel-*
+
+# Ignore VSCode files
+.vscode
+.cache/
+
+# Include third_party symlinks
+/third_party/*/include
+/third_party/*/lib
+
+# Distable toolchain temporaly
+/toolchain

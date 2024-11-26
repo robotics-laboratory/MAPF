@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "graph_proto",
+    srcs = glob(["proto/*.proto"]),
+    deps = ["//geom:geom_proto"],
+)
+
+cc_proto_library(
+    name = "graph_cc_proto",
+    deps = [":graph_proto"],
+)
+
+cc_library(
+    name = "graph",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/graph/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":graph_cc_proto",
+        "//geom",
+    ],
+)

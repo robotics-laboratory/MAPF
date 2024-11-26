@@ -1,0 +1,23 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "geom_proto",
+    srcs = glob(["proto/*.proto"]),
+)
+
+cc_proto_library(
+    name = "geom_cc_proto",
+    deps = [":geom_proto"],
+)
+
+cc_library(
+    name = "geom",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/geom/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":geom_cc_proto",
+    ],
+)

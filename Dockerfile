@@ -13,7 +13,7 @@ RUN apt update -q \
 ENV SHELL /bin/zsh
 SHELL ["/bin/zsh", "-c"]
 
-# INSTALL COMMON
+# Install COMMON
 
 RUN apt update -q \
     && apt install -yq --no-install-recommends \
@@ -33,21 +33,15 @@ RUN apt update -q \
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)" -x
 
-# INSTALL LLVM
+# Install LLVM
 
-ENV FLAGS="-O3 -Wall -Wextra -fsanitize=address"
 ENV CLANG_VERSION=19
 ENV CXX="clang++-${CLANG_VERSION}"
 ENV CC="clang-${CLANG_VERSION}"
-ENV FLAGS="${FLAGS}"
-ENV CFLAGS="${FLAGS} -std=c23"
-ENV CXXFLAGS="${FLAGS} -fsized-deallocation -stdlib=libc++ -std=c++23"
 
 RUN echo "Build info:" \
     && echo "  CC=${CC}" \
-    && echo "  CXX=${CXX}" \
-    && echo "  CFLAGS=${CFLAGS}" \
-    && echo "  CXXFLAGS=${CXXFLAGS}"
+    && echo "  CXX=${CXX}"
 
 RUN wget https://apt.llvm.org/llvm.sh \
     && chmod +x llvm.sh \
@@ -65,18 +59,20 @@ RUN apt-get update -q \
 
 RUN printf "export CC='${CC}'\n" >> /root/.zshrc \
     && printf "export CXX='${CXX}'\n" >> /root/.zshrc \
-    && printf "export CFLAGS='${CFLAGS}'\n" >> /root/.zshrc \
-    && printf "export CXXFLAGS='${CXXFLAGS}'\n" >> /root/.zshrc \
     && ln -sf ${CC} /usr/bin/clang \
     && ln -sf ${CXX} /usr/bin/clang++ \
     && ln -sf /usr/bin/clang-format-${CLANG_VERSION} /usr/bin/clang-format
 
-# INSTALL BAZEL
+# Install Bazel
 
 ARG TARGETARCH
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.23.0/bazelisk-linux-${TARGETARCH} \
     && chmod +x bazelisk-linux-${TARGETARCH} \
-    && mv bazelisk-linux-amd64 /usr/bin/bazel
+    && mv bazelisk-linux-${TARGETARCH} /usr/bin/bazel
+
+RUN wget https://github.com/bazelbuild/buildtools/releases/download/v7.3.1/buildifier-linux-${TARGETARCH} \
+    && chmod +x buildifier-linux-${TARGETARCH} \
+    && mv buildifier-linux-${TARGETARCH} /usr/bin/buildifier
 
 WORKDIR /mapf
 ENTRYPOINT ["/bin/zsh", "-lc"]

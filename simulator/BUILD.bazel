@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "simulator_proto",
+    srcs = glob(["proto/*.proto"]),
+)
+
+cc_proto_library(
+    name = "simulator_cc_proto",
+    deps = [":simulator_proto"],
+)
+
+cc_library(
+    name = "simulator",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/simulator/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":simulator_cc_proto",
+        "//geom",
+        "//graph",
+    ],
+)
