@@ -1,0 +1,44 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "geom_proto",
+    srcs = glob(["proto/*.proto"]),
+)
+
+cc_proto_library(
+    name = "geom_cc_proto",
+    deps = [":geom_proto"],
+)
+
+cc_library(
+    name = "geom",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/geom/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":geom_cc_proto",
+        "@boost.describe",
+    ],
+)
+
+cc_library(
+    name = "geom_test",
+    hdrs = glob(["include/geom/test/*.h"]),
+    deps = [
+        "@googletest//:gtest",
+    ],
+)
+
+cc_test(
+    name = "geom_tests",
+    size = "small",
+    srcs = glob(["tests/*.cpp"]),
+    deps = [
+        ":geom",
+        ":geom_test",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
+    ],
+)

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package mapf.graph.proto;
+
+import "geom/proto/vector.proto";
+
+message Node {
+    optional uint32 id = 1;
+    optional geom.proto.Vec2 pos = 2;
+}
+
+message Edge {
+    optional uint32 from_node_id = 1;
+    optional uint32 to_node_id = 2;
+}
+
+message Graph {
+    repeated Node nodes = 1;
+    repeated Edge edges = 2;
+}
+
+message Endpoints {
+    optional uint32 from_node_id = 1;
+    optional uint32 to_node_id = 2;
+}

@@ -1,0 +1,76 @@
+graph {
+    nodes {
+        id: 0
+        pos {
+            x: 0.0
+            y: 0.0
+        }
+    }
+    nodes {
+        id: 1
+        pos {
+            x: 1.0
+            y: 0.0
+        }
+    }
+    nodes {
+        id: 2
+        pos {
+            x: 0.0
+            y: 1.0
+        }
+    }
+    nodes {
+        id: 3
+        pos {
+            x: 1.0
+            y: 1.0
+        }
+    }
+    edges {
+        from_node_id: 0
+        to_node_id: 2
+    }
+    edges {
+        from_node_id: 2
+        to_node_id: 0
+    }
+    edges {
+        from_node_id: 2
+        to_node_id: 3
+    }
+    edges {
+        from_node_id: 3
+        to_node_id: 2
+    }
+    edges {
+        from_node_id: 3
+        to_node_id: 1
+    }
+    edges {
+        from_node_id: 1
+        to_node_id: 3
+    }
+    edges {
+        from_node_id: 1
+        to_node_id: 0
+    }
+    edges {
+        from_node_id: 0
+        to_node_id: 1
+    }
+}
+agent_tasks {
+    agent_id: 0
+    endpoints {
+        from_node_id: 0
+        to_node_id: 3
+    }
+}
+agent_tasks {
+    agent_id: 1
+    endpoints {
+        from_node_id: 3
+        to_node_id: 0
+    }
+}

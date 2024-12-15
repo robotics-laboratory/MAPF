@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package mapf.geom.proto;
+
+message Vec2 {
+    optional double x = 1;
+    optional double y = 2;
+}
