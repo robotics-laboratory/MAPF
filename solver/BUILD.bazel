@@ -1,0 +1,48 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "solvers",
+    srcs = glob(["solvers/src/*.cpp"]),
+    hdrs = glob(["solvers/include/solvers/*.h"]),
+    includes = ["solvers/include"],
+    deps = [
+        "//graph",
+        "//models",
+    ],
+)
+
+cc_library(
+    name = "factory",
+    srcs = glob(["factory/src/*.cpp"]),
+    hdrs = glob(["factory/include/factory/*.h"]),
+    includes = ["factory/include"],
+    deps = [
+        ":solvers",
+    ],
+)
+
+cc_binary(
+    name = "main",
+    srcs = ["main/src/main.cpp"],
+    deps = [
+        ":factory",
+        ":solvers",
+        "@boost.program_options",
+    ],
+)
+
+cc_test(
+    name = "solvers_tests",
+    size = "small",
+    srcs = glob(["tests/*.cpp"]),
+    deps = [
+        ":solvers",
+        "//graph",
+        "//models",
+        "//models:models_test",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
+    ],
+)

@@ -23,6 +23,7 @@ RUN apt update -q \
     git \
     gpg \
     neovim \
+    ssh \
     software-properties-common \
     sudo \
     tar \
@@ -38,6 +39,7 @@ RUN sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools
 ENV CLANG_VERSION=19
 ENV CXX="clang++-${CLANG_VERSION}"
 ENV CC="clang-${CLANG_VERSION}"
+ENV BAZEL_CXXOPTS="-std=c++2c"
 
 RUN echo "Build info:" \
     && echo "  CC=${CC}" \
@@ -59,6 +61,7 @@ RUN apt-get update -q \
 
 RUN printf "export CC='${CC}'\n" >> /root/.zshrc \
     && printf "export CXX='${CXX}'\n" >> /root/.zshrc \
+    && printf "export BAZEL_CXXOPTS='${BAZEL_CXXOPTS}'\n" >> /root/.zshrc \
     && ln -sf ${CC} /usr/bin/clang \
     && ln -sf ${CXX} /usr/bin/clang++ \
     && ln -sf /usr/bin/clang-format-${CLANG_VERSION} /usr/bin/clang-format
@@ -73,6 +76,12 @@ RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.23.0/bazeli
 RUN wget https://github.com/bazelbuild/buildtools/releases/download/v7.3.1/buildifier-linux-${TARGETARCH} \
     && chmod +x buildifier-linux-${TARGETARCH} \
     && mv buildifier-linux-${TARGETARCH} /usr/bin/buildifier
+
+# Install MCAP CLI
+
+RUN wget https://github.com/foxglove/mcap/releases/download/releases%2Fmcap-cli%2Fv0.0.50/mcap-linux-${TARGETARCH} \
+    && chmod +x mcap-linux-${TARGETARCH} \
+    && mv mcap-linux-${TARGETARCH} /usr/bin/mcap
 
 WORKDIR /mapf
 ENTRYPOINT ["/bin/zsh", "-lc"]

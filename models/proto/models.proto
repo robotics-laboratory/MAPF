@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package mapf.models.proto;
+
+import "graph/proto/graph.proto";
+
+message AgentState {
+    optional uint32 agent_id = 1;
+    optional uint32 node_id = 2;
+}
+
+message AgentTask {
+    optional uint32 agent_id = 1;
+    optional graph.proto.Endpoints endpoints = 2;
+}
+
+message AgentPath {
+    optional uint32 agent_id = 1;
+    repeated uint32 path = 2;
+}
+
+message MAPFProblem {
+    optional graph.proto.Graph graph = 1;
+    repeated AgentTask agent_tasks = 2;
+}
+
+message MAPFSolution {
+    repeated AgentPath agent_paths = 1;
+}

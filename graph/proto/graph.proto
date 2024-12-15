@@ -5,13 +5,13 @@ package mapf.graph.proto;
 import "geom/proto/vector.proto";
 
 message Node {
-    uint32 id = 1;
-    geom.proto.Vec2 pos = 2;
+    optional uint32 id = 1;
+    optional geom.proto.Vec2 pos = 2;
 }
 
 message Edge {
-    uint32 from_node_id = 1;
-    uint32 to_node_id = 2;
+    optional uint32 from_node_id = 1;
+    optional uint32 to_node_id = 2;
 }
 
 message Graph {
@@ -20,6 +20,6 @@ message Graph {
 }
 
 message Endpoints {
-    uint32 from_node_id = 1;
-    uint32 to_node_id = 2;
+    optional uint32 from_node_id = 1;
+    optional uint32 to_node_id = 2;
 }

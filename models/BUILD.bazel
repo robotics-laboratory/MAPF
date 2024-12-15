@@ -1,0 +1,49 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "models_proto",
+    srcs = glob(["proto/*.proto"]),
+    deps = ["//graph:graph_proto"],
+)
+
+cc_proto_library(
+    name = "models_cc_proto",
+    deps = [":models_proto"],
+)
+
+cc_library(
+    name = "models",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/models/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":models_cc_proto",
+        "//geom",
+        "//graph",
+        "@boost.container_hash",
+        "@boost.describe",
+    ],
+)
+
+cc_library(
+    name = "models_test",
+    hdrs = glob(["include/models/test/*.h"]),
+    deps = [
+        "//graph:graph_test",
+        "@googletest//:gtest",
+    ],
+)
+
+cc_test(
+    name = "models_tests",
+    size = "small",
+    srcs = glob(["tests/*.cpp"]),
+    deps = [
+        ":models",
+        ":models_test",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
+    ],
+)

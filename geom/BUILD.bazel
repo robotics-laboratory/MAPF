@@ -19,5 +19,26 @@ cc_library(
     includes = ["include"],
     deps = [
         ":geom_cc_proto",
+        "@boost.describe",
+    ],
+)
+
+cc_library(
+    name = "geom_test",
+    hdrs = glob(["include/geom/test/*.h"]),
+    deps = [
+        "@googletest//:gtest",
+    ],
+)
+
+cc_test(
+    name = "geom_tests",
+    size = "small",
+    srcs = glob(["tests/*.cpp"]),
+    deps = [
+        ":geom",
+        ":geom_test",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
     ],
 )

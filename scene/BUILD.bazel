@@ -1,0 +1,25 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "scene_proto",
+    srcs = glob(["proto/*.proto"]),
+    deps = ["//models:models_proto"],
+)
+
+cc_proto_library(
+    name = "scene_cc_proto",
+    deps = [":scene_proto"],
+)
+
+cc_library(
+    name = "scene",
+    srcs = glob(["src/*.cpp"]),
+    hdrs = glob(["include/scene/*.h"]),
+    includes = ["include"],
+    deps = [
+        ":scene_cc_proto",
+        "//models",
+    ],
+)
