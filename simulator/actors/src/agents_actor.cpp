@@ -93,12 +93,7 @@ void AgentsActor::ScheduleNextMove(const models::AgentId& agent_id) {
     if (plan_progresses_[agent_id] >= plan.size()) {
         return;
     }
-    const auto& graph = mapf_problem_->graph;
-    const graph::NodeId& next_node_id = plan[plan_progresses_[agent_id] + 1];
-    double distance =
-        (graph.nodes.at(next_node_id).pos - graph.nodes.at(GetAgentState(agent_id).node_id).pos)
-            .Len();
-    double move_time = distance;  // All agents speeds equals 1 for now
+    double move_time = 1;  // All agents speeds equals 1 for now
     auto message = std::make_shared<AgentMoveMessage>(
         versioned_mapf_solution_.version, agent_id, plan_progresses_[agent_id] + 1);
     context_->event_bus->Publish(context_->current_time + move_time, std::move(message));

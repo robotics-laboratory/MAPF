@@ -42,7 +42,7 @@ cc_library(
         ":context",
         ":event",
         ":messages",
-        "//scene",
+        "//foxglove:foxglove_cc_proto",
         "//solver:solvers",
         "@mcap",
     ],
