@@ -104,7 +104,9 @@ int main(int argc, char* argv[]) {
     auto launcher = mapf::simulator::Launcher();
     auto agents_actor = launcher.CreateActor<mapf::simulator::AgentsActor>(mapf_problem_ptr);
     launcher.CreateActor<mapf::simulator::RecordActor>(
-        program_options.scene_file, 1.0 / program_options.record_frequency);
+        program_options.scene_file,
+        1.0 / program_options.record_frequency,
+        std::make_shared<mapf::graph::Graph>(mapf_problem_ptr->graph));
     launcher.CreateActor<mapf::simulator::SolverActor>(
         mapf::solver::SolverFactory::Instance().CreateSolver(program_options.solver_name));
 

@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package mapf.scene.proto;
-
-import "models/proto/models.proto";
-
-message Scene {
-    repeated models.proto.AgentState agent_state = 1;
-};

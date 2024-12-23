@@ -31,7 +31,7 @@ bool HasCollision(
     std::unordered_set<graph::NodeId> occupied_positions;
 
     for (const auto& [agent_id, agent_state] : current_positions) {
-        if (occupied_positions.count(agent_state.node_id)) {
+        if (occupied_positions.contains(agent_state.node_id)) {
             return true;
         }
         occupied_positions.insert(agent_state.node_id);
